@@ -1,219 +1,132 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Adam Store</title>
+  <meta charset="utf-8"/>
+  <title>Adam Fix Store</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body, html {
-      height: 100%;
-      font-family: 'Segoe UI', sans-serif;
-    }
-
     body {
-      background: #f5f5f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      margin:0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(270deg,#ff7eb3,#ff758c,#42a5f5,#7e57c2);
+      color: white; text-align:center; padding:20px;
     }
-
-    /* Store Window */
-    .store-window {
-      width: 500px;
-      background: white;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-      border-radius: 8px;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .store-item {
-      width: 90%;
-      padding: 15px;
-      margin: 10px 0;
-      background-color: #f0f0f0;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      text-align: center;
-    }
-
-    .store-item h4 {
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
-
-    .store-item p {
-      font-size: 16px;
-      margin-bottom: 10px;
-    }
-
-    /* Cart Section */
-    #cart {
-      margin-top: 20px;
-      width: 100%;
-    }
-    .cart-item {
-      padding: 10px;
-      background-color: #f5f5f5;
-      margin-bottom: 5px;
-      border: 1px solid #ccc;
-    }
-    #cart h4 {
-      font-size: 20px;
-    }
-
-    /* Checkout Form */
-    #checkoutForm {
-      display: none;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-      width: 300px;
-      text-align: center;
-    }
-
-    #checkoutForm input {
-      padding: 10px;
-      margin-top: 10px;
-      width: 100%;
-      font-size: 16px;
-    }
-
-    /* Close Button */
-    .close-btn {
-      padding: 10px 20px;
-      background-color: #d9534f;
-      border: none;
-      color: white;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-top: 20px;
-    }
+    h1 { text-shadow:0 0 12px rgba(0,0,0,0.5); }
+    .items p { cursor:pointer; background:rgba(255,255,255,0.08); padding:12px; border-radius:8px; margin:8px auto; width:320px; color:yellow; }
+    form { display:none; margin:20px auto; background:rgba(0,0,0,0.45); padding:16px; width:360px; border-radius:10px; text-align:left; }
+    input, textarea, button { width:100%; padding:10px; margin:8px 0; border-radius:6px; border:none; font-size:14px; }
+    button { background:#42a5f5; color:#fff; cursor:pointer; }
+    button[disabled] { opacity:0.6; cursor:default; }
+    #status { margin-top:10px; font-size:14px; color:lightgreen; white-space:pre-line; }
+    #err { color:#ffb3b3; font-size:13px; margin-top:8px; white-space:pre-line; }
   </style>
 </head>
 <body>
+  <h1>Adam Fix Store</h1>
+  <p>Click an item to fill the form</p>
 
-  <!-- Store Window -->
-  <div class="store-window" id="storeWindow">
-    <h3>Adam Store</h3>
-
-    <!-- Store Items -->
-    <div class="store-item" id="item1">
-      <h4>Internet Cable</h4>
-      <p>Price: $20</p>
-      <button onclick="addToCart('Internet Cable', 20)">Add to Cart</button>
-    </div>
-    <div class="store-item" id="item2">
-      <h4>Alcatel Tablet</h4>
-      <p>Price: $150</p>
-      <button onclick="addToCart('Alcatel Tablet', 150)">Add to Cart</button>
-    </div>
-    <div class="store-item" id="item3">
-      <h4>RGB Headphones</h4>
-      <p>Price: $100</p>
-      <button onclick="addToCart('RGB Headphones', 100)">Add to Cart</button>
-    </div>
-    <div class="store-item" id="item4">
-      <h4>6 Soaps</h4>
-      <p>Price: $200</p>
-      <button onclick="addToCart('6 Soaps', 200)">Add to Cart</button>
-    </div>
-
-    <!-- Cart Section -->
-    <div id="cart">
-      <h4>Shopping Cart:</h4>
-      <div id="cartItems"></div>
-    </div>
-
-    <!-- Checkout Button -->
-    <button onclick="showCheckoutForm()">Proceed to Checkout</button>
-
-    <!-- Close Button -->
-    <button class="close-btn" onclick="closeStore()">Close Store</button>
+  <div class="items">
+    <p onclick="prefill('Calculator','987 EGP')">🧮 Calculator — 987 EGP</p>
+    <p onclick="prefill('Gun Toy','100 EGP')">🔫 Gun Toy — 100 EGP</p>
+    <p onclick="prefill('Toy Car','200 EGP')">🚗 Toy Car — 200 EGP</p>
+    <p onclick="prefill('Tie','50 EGP')">👔 Tie — 50 EGP</p>
   </div>
 
-  <!-- Checkout Form -->
-  <div id="checkoutForm">
-    <h4>Checkout</h4>
-    <input type="text" id="address" placeholder="Enter Address" />
-    <input type="text" id="creditCard" placeholder="Enter Credit Card Number" />
-    <input type="text" id="cardHolderName" placeholder="Enter Card Holder Name" />
-    <button onclick="submitCheckout()">Submit</button>
-    <button onclick="closeCheckout()">Cancel</button>
-  </div>
+  <form id="orderForm">
+    <h2>Buy Item</h2>
+    <input type="hidden" name="item" id="item" />
+    <input type="hidden" name="cash" id="cash" />
+    <label>Your email</label>
+    <input type="email" name="user_email" id="user_email" required />
+    <label>Phone number</label>
+    <input type="text" name="number" required />
+    <label>Address</label>
+    <input type="text" name="address" required />
+    <label>Message / What happened</label>
+    <textarea name="message"></textarea>
+    <button id="submitBtn" type="submit">Buy</button>
+    <div id="status"></div>
+    <div id="err"></div>
+  </form>
 
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script>
-    let cart = [];
+    // ==== CONFIG (your values) ====
+    const EMAILJS_SERVICE = "service_fdy3h4j";
+    const EMAILJS_TEMPLATE = "template_s37d2qa";
+    const EMAILJS_PUBLIC_KEY = "h0dABymW32jwHiXli";
+    const FORMSPREE_ENDPOINT = "https://formspree.io/f/xjkenzwo";
 
-    // Show the store window without the need for login
-    document.getElementById('storeWindow').style.display = 'block';
+    (function(){
+      try { 
+        emailjs.init(EMAILJS_PUBLIC_KEY); 
+        console.log("EmailJS initialized with public key"); 
+      } catch(e){ 
+        console.error("EmailJS init error:", e); 
+      }
+    })();
 
-    // Add item to the cart
-    function addToCart(itemName, itemPrice) {
-      cart.push({ name: itemName, price: itemPrice });
-      updateCartDisplay();  // Update the cart display
+    function prefill(itemName, cashVal) {
+      document.getElementById("orderForm").style.display = "block";
+      document.getElementById("item").value = itemName;
+      document.getElementById("cash").value = cashVal;
+      document.getElementById("status").innerText = "";
+      document.getElementById("err").innerText = "";
     }
 
-    // Update the cart display
-    function updateCartDisplay() {
-      const cartItemsDiv = document.getElementById('cartItems');
-      cartItemsDiv.innerHTML = ''; // Clear existing cart items
+    document.getElementById("orderForm").addEventListener("submit", async function(ev){
+      ev.preventDefault();
+      const form = ev.target;
+      const submitBtn = document.getElementById("submitBtn");
+      const status = document.getElementById("status");
+      const errDiv = document.getElementById("err");
 
-      if (cart.length === 0) {
-        cartItemsDiv.innerHTML = '<p>Your cart is empty.</p>';
-      } else {
-        cart.forEach(item => {
-          const cartItem = document.createElement('div');
-          cartItem.classList.add('cart-item');
-          cartItem.innerHTML = `${item.name} - $${item.price}`;
-          cartItemsDiv.appendChild(cartItem);
+      submitBtn.disabled = true;
+      status.innerText = "⏳ Sending order…";
+      errDiv.innerText = "";
+
+      const formData = new FormData(form);
+
+      function finishSuccess(msg){
+        status.innerText = msg;
+        submitBtn.disabled = false;
+        form.reset();
+        form.style.display = "none";
+      }
+      function finishError(msg){
+        status.innerText = "";
+        errDiv.innerText = msg;  // 🛑 keep error visible
+        submitBtn.disabled = false;
+      }
+
+      try {
+        const res = await emailjs.sendForm(EMAILJS_SERVICE, EMAILJS_TEMPLATE, form);
+        console.log("EmailJS success:", res);
+        finishSuccess("✅ Order sent! Confirmation email should arrive shortly.");
+        return;
+      } catch (emailErr) {
+        console.error("EmailJS failed:", emailErr);
+        finishError("⚠️ EmailJS failed. See console for details. Trying Formspree fallback…");
+      }
+
+      try {
+        const resp = await fetch(FORMSPREE_ENDPOINT, {
+          method: 'POST',
+          body: formData,
+          headers: { 'Accept': 'application/json' }
         });
+        const text = await resp.text();
+        console.log("Formspree response:", resp.status, text);
+        if (resp.ok) {
+          finishSuccess("✅ Order saved via Formspree fallback.");
+        } else {
+          finishError("❌ Formspree failed (status " + resp.status + "). Check console.");
+        }
+      } catch (fetchErr) {
+        console.error("Formspree fetch error:", fetchErr);
+        finishError("❌ Both EmailJS and Formspree failed. See console for details.");
       }
-    }
-
-    // Open checkout form
-    function showCheckoutForm() {
-      document.getElementById('checkoutForm').style.display = 'block';
-    }
-
-    // Submit the checkout information
-    function submitCheckout() {
-      const address = document.getElementById('address').value;
-      const creditCard = document.getElementById('creditCard').value;
-      const cardHolderName = document.getElementById('cardHolderName').value;
-
-      if (address && creditCard && cardHolderName) {
-        alert(`Order submitted! \nAddress: ${address} \nCredit Card: ${creditCard} \nCard Holder: ${cardHolderName}`);
-        closeCheckout(); // Close the checkout form after submitting
-      } else {
-        alert("Please fill all the fields.");
-      }
-    }
-
-    // Close the checkout form
-    function closeCheckout() {
-      document.getElementById('checkoutForm').style.display = 'none';
-      document.getElementById('storeWindow').style.display = 'block'; // Go back to store
-    }
-
-    // Close the store window
-    function closeStore() {
-      document.getElementById('storeWindow').style.display = 'none';
-    }
+    });
   </script>
-
 </body>
 </html>
-
-
-
